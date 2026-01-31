@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عالم فارس & ملك الخاص ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #d00000; /* أحمر دموي احترافي */
+            --secondary: #6a040f; /* أحمر داكن */
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg: #0a0a0a; /* أسود شيك */
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+
+        /* الخلفية المتحركة */
+        .hearts-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .heart-particle { position: absolute; color: var(--primary); opacity: 0.3; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* الصفحة 1: الدخول */
+        #page-1 {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #000000 0%, #370606 100%);
+            position: fixed; width: 100%; z-index: 9999; transition: 1.2s;
+        }
+        .login-card {
+            background: var(--glass); backdrop-filter: blur(20px); padding: 40px;
+            border-radius: 30px; border: 1px solid var(--glass-border); text-align: center;
+            width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(208, 0, 0, 0.2);
+        }
+        
+        .main-title { font-weight: 900; background: linear-gradient(45deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* الصفحة 2 */
+        #page-2 { display: none; opacity: 0; height: 100vh; overflow-y: auto; position: relative; z-index: 5; transition: 1s; background: #000; }
+        .container { padding: 20px; max-width: 500px; margin: 0 auto; }
+
+        .glass-card {
+            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 25px; 
+            margin-bottom: 25px; overflow: hidden; opacity: 0; transform: translateY(30px); 
+            transition: 0.8s; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .glass-card.show { opacity: 1; transform: translateY(0); }
+        .glass-card video { width: 100%; border-radius: 25px 25px 0 0; display: block; }
+        
+        .message-divider {
+            padding: 20px; text-align: center; font-weight: 600; font-size: 16px;
+            color: #eee; line-height: 1.6; border-right: 3px solid var(--primary);
+            background: rgba(208, 0, 0, 0.05); margin-bottom: 30px; border-radius: 0 15px 15px 0;
+        }
+
+        .counter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 25px 0; }
+        .count-box { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 15px 5px; border-radius: 20px; text-align: center; }
+        .count-num { font-size: 20px; font-weight: 800; color: var(--primary); }
+
+        .notes-container { display: flex; overflow-x: auto; gap: 15px; padding: 10px 0; scrollbar-width: none; }
+        .note-card { min-width: 140px; height: 140px; position: relative; transition: 0.6s; transform-style: preserve-3d; cursor: pointer; }
+        .note-card.flipped { transform: rotateY(180deg); }
+        .note-front, .note-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 15px; border-radius: 25px; border: 1px solid var(--glass-border); text-align: center; }
+        .note-front { background: var(--glass); color: var(--gold); font-size: 24px; }
+        .note-back { background: var(--primary); transform: rotateY(180deg); font-size: 13px; font-weight: 600; color: white; }
+
+        .btn-style { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 5px 15px rgba(208,0,0,0.3); }
+
+        #page-3 { display: none; opacity: 0; position: fixed; inset: 0; z-index: 10000; background: #000; transition: 1s; overflow-y: auto; }
+        .secret-content { padding: 30px 20px; text-align: center; }
+        .final-msg-card { background: var(--glass); border: 1px solid var(--gold); padding: 30px; border-radius: 30px; backdrop-filter: blur(30px); color: #fff; line-height: 1.8; text-align: right; font-size: 15px; }
+
+        .music-bar { background: var(--glass); padding: 15px; border-radius: 20px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 15px; margin: 20px 0; }
+        .play-icon { width: 45px; height: 45px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg" id="hearts-container"></div>
+
+    <section id="page-1">
+        <div class="login-card animate__animated animate__fadeIn">
+            <h1 class="main-title" style="font-size: 35px; margin-bottom: 5px;">فارس & ملك</h1>
+            <p style="opacity:0.5; font-size:10px; letter-spacing: 3px; margin-bottom: 30px;">OUR ETERNAL LOVE STORY</p>
+            
+            <input type="text" id="passInput" placeholder="password" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); padding:15px; border-radius:12px; color:#fff; text-align:center; margin-bottom:20px; outline:none;">
+            
+            <button class="btn-style" onclick="checkPass()">دوس هنا😂</button>
+        </div>
+    </section>
+
+    <section id="page-2">
+        <div class="container">
+            <header style="text-align:center; padding:30px 0;">
+                <h2 class="main-title" style="font-size: 28px;">حكايتنا ❤️</h2>
+                <div style="font-size:12px; color:var(--gold); margin-top:10px;">منذ 28/10/2024</div>
+            </header>
+
+            <div class="counter-grid">
+                <div class="count-box"><span id="years" class="count-num">0</span><div style="font-size:10px; opacity:0.6;">سنة</div></div>
+                <div class="count-box"><span id="months" class="count-num">0</span><div style="font-size:10px; opacity:0.6;">شهر</div></div>
+                <div class="count-box"><span id="days" class="count-num">0</span><div style="font-size:10px; opacity:0.6;">يوم</div></div>
+                <div class="count-box"><span id="hours" class="count-num">0</span><div style="font-size:10px; opacity:0.6;">ساعة</div></div>
+                <div class="count-box"><span id="mins" class="count-num">0</span><div style="font-size:10px; opacity:0.6;">دقيقة</div></div>
+                <div class="count-box"><span id="secs" class="count-num">0</span><div style="font-size:10px; opacity:0.6;">ثانية</div></div>
+            </div>
+
+            <div class="music-bar">
+                <div class="play-icon" onclick="toggleMusic()"><i id="pIcon" class="fa-solid fa-play"></i></div>
+                <div style="flex:1">
+                    <div style="font-size:14px; font-weight:700;">أغنيتنا الخاصة 🎵</div>
+                </div>
+                <audio id="loveSong" loop src="https://c.top4top.io/m_3683im1991.mp4"></audio>
+            </div>
+
+            <div class="notes-container">
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-heart"></i></div>
+                    <div class="note-back">إنت أجمل نعمة في حياتي ❤️</div>
+                </div>
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-star"></i></div>
+                    <div class="note-back">وجودك بيخلي الدنيا منورة ✨</div>
+                </div>
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-crown"></i></div>
+                    <div class="note-back">ملك قلبي للأبد 💍</div>
+                </div>
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-infinity"></i></div>
+                    <div class="note-back">انا لك وانت لي ولا يفرقنا غير الموت🤴🏻❤</div>
+                </div>
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                    <div class="note-back">احبك حب ادمان انا المريض وانت علاجي ❤️‍🩹♾️</div>
+                </div>
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-fire"></i></div>
+                    <div class="note-back">احببك حُب لم يحبِونهَ العَاشقينِ من قَبل ❤️‍🩹🤷🏻‍♀️</div>
+                </div>
+            </div>
+
+            <div style="height: 30px;"></div>
+
+            <div class="glass-card v-card">
+                <video controls onplay="pauseMainMusic()" onpause="playMainMusic()" src="https://g.top4top.io/m_3683rsmjg1.mp4"></video>
+            </div>
+            <div class="message-divider">لا يهمُنيِ جَمِيع الرچاَل، فَـا انــا معيِ أمِيرهُم ومَلك قَلبيِ وَكُل شيءِ 🤴🏻🌍❤</div>
+
+            <div class="glass-card v-card">
+                <video controls onplay="pauseMainMusic()" onpause="playMainMusic()" src="https://f.top4top.io/m_3683592ox1.mp4"></video>
+            </div>
+            <div class="message-divider">انت قدري الحلو من الدنيا❤</div>
+
+            <div class="glass-card v-card">
+                <video controls onplay="pauseMainMusic()" onpause="playMainMusic()" src="https://h.top4top.io/m_36838qjrp1.mp4"></video>
+            </div>
+            <div class="message-divider">فليشهدُ الحبُّ أني أحبُّك فوقَ حبِّ العاشقينَ حبًا</div>
+
+            <div class="glass-card v-card">
+                <video controls onplay="pauseMainMusic()" onpause="playMainMusic()" src="https://i.top4top.io/m_3683s664w1.mp4"></video>
+            </div>
+            <div class="message-divider">هو فارس وانا اميرته👸🏻</div>
+
+            <div style="text-align:center; padding: 40px 0 100px;">
+                <button class="btn-style" style="width:auto; padding: 15px 40px; border-radius: 50px;" onclick="goToPage3()">اضغط هنا 🎁</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="page-3">
+        <div class="secret-content">
+            <div class="final-msg-card animate__animated animate__fadeInUp">
+                <p>
+                    مش عارفة أبدأ منين ولا أرتب الكلام إزاي، بس اللي متأكدة منه إنك أحلى حاجة حصلتلي في حياتي. وجودك جنبي لوحده كفاية يخليني أحس إني بخير حتى في الأيام اللي الدنيا فيها مش احسن حاجة انت أول ما دخلت حياتي🫴🏻💘💘💘🫶🏻 وأنا حاسة إن في حاجة اتظبطت جوايا، إن في حد بقى فارق معاه أضحك ولا أزعل، أفرح ولا أتعب وبمناسبة عيد الحب وان ده تاني عيد حب لينا مع بعض 🥹 <br><br>
+                    كل سنه وانت بخير يا اغلا حاجه في دنيا دي كلها عايزاك تعرف اني مليش غيرك وان مهما حصل هفضل ماسكه فيك انا لقيت فيك الي عمري م هلاقي في حد تاني اه بجننك كتير وبغلس عليك وبرغم بس يعلم ربنا ده من حبي فيك انت حاجه كبيرة بالنسبالي انت الحاجة الوحيدة اللي مش هستحمل ان ربنا يأذيني فيها مش هستحمل هفضل ادعيلك يانور عيني ان تحقق حلمك وتبقا مبسوط ومش عايزة اشوفك زعلان ابدا بقيت حاجه اساسيه عندي وحاجه كبيرة اووي بنسبالي في حياتي وخليك عارف اني مهما حصل وهيحصل اني انا مش عوزه حاجه من الدنيا دي غيرك واني اشوفك احسن حد وانيي اشوفك دايما مبسوط وكويس وعوزه اقولك ربنا يخليك ليا وميحرمنيش من وجودك في حياتي ولا منك يافروسه 😍🫂🫂🫂🙈🤴🏻ابدا وكل سنه وانت طيب وكل سنه وانت منور حياتي كلها وعقبال الف سنه واحنا مع بعض يارب تكون سنه سعيده عليك <br><br>
+                    كل عيد حب وانت معايا يا نور عيني و منور حياتي يا عمري انت عاوزه اقولك أن انت من ساعت ما دخلت حياتي غيرتها اوي خليتني احب الحب وانت موجود كنت بقول مين يحب الحب ده لدرجة ان لو شخص بعد عنه يبقا خلاص يتمني الموت ارحم والحقيقة يوم م حبيتك وانا عشقتك مش حبيتك بحبك حب لاخر نفس فيا لا يمكن ان الوعود اللي وعدتهالك معملهاش و أنت اللي عرفتني معنى الحب بجد انت اللي عرفتني معنى يبقى عندك شخص لو بعد عنك حياتك كلها هتقف عليه لو فضلت يوم من غيره أو من غير ما اسمع صوته احس ان اليوم ده تقیل و بارد و مش حاسه بيه أصلاً بجد يوم مابكون مش عارفة اطمن عليك ببقا هتجنن واني اوصلك واسمع صوتك واطمن عليك لأن بجد انت اول حد حبيته في حياتي انت الحب الاول ليا واللي عرفت معاه يعني اي حب وهتفضل الحب الخير انت انا بقيت عاوزاك جمبي على طول و متسبنيش و عارفه اني بزعلك و برخم عليك بتصرفاتي وهلبي وكل حاجةفيا طفلة🥺🙈♥♥ بس بحبك وربنا كتير و انا بعتبرك ابويا و صاحبي و حبيبي و بطلي و كل حاجه من الدنيا دي و بعمل كده بردو علشان بحبك و مليش غيرك أصلاً . انا بجد بحب كل حاجه فيك عيوبك قبل مميزاتك ولا اقولك انا مش شايفة فيك عيوب حتى لو شوفت فيك عيب صدقني العيب هيبقى فيا انا مش فيك وانت كلك مميزات كفايا حنيتك وحب لبا وخوفك عليا دي بالدنيا حتي لما بتحاول تقسي قلبك عليا لكن عارفة انه من ورا قلبك لاني بجد بحبك كلك كده على بعضك بحب صوتك بحب ضحكتك بحب كل حاجة فيك كلام الحب كله مش هيوفي حقك ياحبيب عمري ♥❤ يخليك ليا ي فروسة قلبي وقلب ملوكتك وحتي لو مبقيناش نتكلم زي الاول بس برضو هفضل احبك لاخر عمري وبتمناك من دنيا دي برغم المشاكل والزعل اللي كان بيحصل مابينا بس عمري مافكرت اني اكرهك علشان حبيتك بجد من كل قلبي ولا اني اقول خلاص برضو باجي بعد شوية ببقا عايزة اطمن عليك فاكر اول مرة اتكلمنا فيها لسه فكراها كان حوالي ساعة خمسة الا او ستة كان معايا درس فاكر لما قولتلي بحبك كل حاجة مابينا محفورة جوا قلبي يمكن اه دنيا دي مش احسن حاجة بس هحاول علشان ومتزعلش عليا وعلي تعبي ومتزعلش مني علي اي حاجه حقك عليا لو زعلت بسببي ف يوم ولا ف ثانية ومبحبش اشوفك زعلان مع اني بزعلك بهبلي لكن وربنا ببقا زي مجنونة هموت واصالحك ولا بعرف انام اني حسيت بس اني زعلتك ولا دايقتك ببقا هتجنن وغصب عني بو زعلتك ف يوم بس مليش غيرك ف دنيا دي🌎♥♥🙈 <br><br>
+                    عارف انا مش عارفة اقول اي ولا اي بس بجد لو هفضل طول عمري اكتبلك اللي جوايا وكلام حب ده مش هيكفي حقك وانت عارف قد اي الحب ف القلب بس بعبرلك شوية وخليك عارف ي بابا اني بحبك بحبك بحبك بحبك اوي وبموت فيك وجودك نعمة ف حياتي اللي هفضل اشكر ربنا عليها طول العمر وبشكر الصدفة اللي جمعتنا وهفضل فخورة بيك طول عمري وفخورة بكل حاجه كل عيد حب وانت عيدي♥♥♥♥♥♥♥♥💋🏡🥹
+                </p>
+                <button class="btn-style" onclick="location.reload()" style="margin-top: 20px;">العودة للرئيسية ❤️</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const song = document.getElementById('loveSong');
+
+        function checkPass() {
+            const input = document.getElementById('passInput').value;
+            if(input === "28/10/2024") {
+                document.getElementById('page-1').style.transform = 'scale(0)';
+                document.getElementById('page-1').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('page-1').style.display = 'none';
+                    document.getElementById('page-2').style.display = 'block';
+                    document.body.style.overflow = 'auto';
+                    setTimeout(() => { 
+                        document.getElementById('page-2').style.opacity = '1';
+                        checkScroll();
+                    }, 50);
+                    startCounter();
+                    createHearts();
+                }, 800);
+            } else {
+                alert("الباسورد غلط يا روحي ركزي 😂");
+            }
+        }
+
+        function startCounter() {
+            const startDate = new Date("2024-10-28T00:00:00");
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - startDate;
+
+                const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+                const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+                const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('years').innerText = years;
+                document.getElementById('months').innerText = months;
+                document.getElementById('days').innerText = days;
+                document.getElementById('hours').innerText = hours;
+                document.getElementById('mins').innerText = mins;
+                document.getElementById('secs').innerText = secs;
+            }, 1000);
+        }
+
+        function toggleMusic() {
+            const i = document.getElementById('pIcon');
+            if(song.paused) { song.play(); i.className = 'fa-solid fa-pause'; }
+            else { song.pause(); i.className = 'fa-solid fa-play'; }
+        }
+
+        function pauseMainMusic() { song.pause(); document.getElementById('pIcon').className = 'fa-solid fa-play'; }
+        function playMainMusic() { song.play(); document.getElementById('pIcon').className = 'fa-solid fa-pause'; }
+
+        function goToPage3() {
+            document.getElementById('page-3').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0,0);
+            setTimeout(() => { document.getElementById('page-3').style.opacity = '1'; }, 50);
+        }
+
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            setInterval(() => {
+                const heart = document.createElement('i');
+                heart.className = 'fa-solid fa-heart heart-particle';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 6000);
+            }, 400);
+        }
+
+        function checkScroll() {
+            document.querySelectorAll('.glass-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 50) card.classList.add('show');
+            });
+        }
+        document.getElementById('page-2').onscroll = checkScroll;
+    </script>
+</body>
+</html>
